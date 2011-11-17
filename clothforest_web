@@ -1,0 +1,40 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use FindBin;
+use lib "$FindBin::Bin/lib";
+use lib "$FindBin::Bin/extlib/lib/perl5";
+use local::lib "$FindBin::Bin/extlib";
+use Getopt::Long;
+
+use ClothForest::Web;
+
+my $root_dir = $FindBin::Bin;
+my $config = $root_dir . '/cloudforecast.yaml';
+my $server_list = $root_dir .'/server_list.yaml';
+my $port = 5500;
+my $host = 0;
+my @allowfrom;
+my @front_proxy;
+
+GetOptions(
+    'o|host=s' => \$host,
+    'p|port=s' => \$port,
+    'allow-from=s' => \@allowfrom,
+    'front-proxy=s' => \@front_proxy,
+    'c|config=s' => \$config,
+    'l|server-list=s' => \$server_list,
+);
+
+die 'config not found' unless $config;
+die 'server_list not found' unless $server_list;
+
+ClothForest::Web->new({
+    host => $host,
+    port => $port,
+    allowfrom => \@allowfrom,
+    front_proxy => \@front_proxy,
+    root_dir => $root_dir,
+    global_config => $config,
+    server_list => $server_list,
+})->run;

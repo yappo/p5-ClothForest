@@ -1,0 +1,9 @@
+---
+config:
+  data_dir: /foo/bar/data
+  host_config_dir: /foo/bar/host_config
+
+component_config:
+  ClothForest:
+    url: http://127.0.0.1:5500/
+    cloudforecast_url: http://cloudforecast.example.com/
